@@ -21,6 +21,9 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
+      - name: Set GITHUB_ACTIONS Environment Variable
+        run: echo 'GITHUB_ACTIONS=true' >> $GITHUB_ENV
+
       - name: Checkout Repository
         uses: actions/checkout@v2
 
@@ -31,3 +34,15 @@ jobs:
 
       - name: Install Dependencies
         run: pip install -r requirements.txt
+        
+      - name: Start FastAPI with uvicorn
+        run: uvicorn App.main:app --host 0.0.0.0 --port 8000 &
+
+      - name: Run Integration Test
+        run: |
+          pytest tests/
+          exit_code=$?
+          if [ $exit_code -eq 0 ]; then
+            echo "Integration test passed. Database is connected."
+
+      
