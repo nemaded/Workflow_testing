@@ -33,7 +33,7 @@ jobs:
         run: pip install -r requirements.txt
         
       - name: Start FastAPI with uvicorn
-        run: uvicorn main:app --host 0.0.0.0 --port 8000 &
+        run: uvicorn App.main:app --host 0.0.0.0 --port 8000 &
 
       - name: Run Integration Test
         run: |
