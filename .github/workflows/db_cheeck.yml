@@ -25,7 +25,7 @@ jobs:
         run: echo 'GITHUB_ACTIONS=true' >> $GITHUB_ENV
        
       - name: checking for port
-        run: pg_isready -h <localhost> -p <5432>
+        run: pg_isready -h localhost -p 5432
 
       - name: Checkout Repository
         uses: actions/checkout@v2
