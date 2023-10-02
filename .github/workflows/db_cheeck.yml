@@ -24,8 +24,9 @@ jobs:
       - name: Set GITHUB_ACTIONS Environment Variable
         run: echo 'GITHUB_ACTIONS=true' >> $GITHUB_ENV
        
-      - name: checking for port
-        run: pg_isready -h localhost -p 5432
+      - name: craeting database and user
+        run:  psql -U ${{ secrets.POSTGRES_USER }} -d mydatabase -h localhost -p 5432 -c "CREATE USER myuser WITH PASSWORD 'mypassword';"
+              
 
       - name: Checkout Repository
         uses: actions/checkout@v2
