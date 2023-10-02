@@ -11,9 +11,9 @@ jobs:
 
     services:
       postgres:
-        image: postgres:13
+        image: postgres:16
         env:
-          POSTGRES_DB: mydatabase
+          POSTGRES_DB: new_db
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         ports:
@@ -24,8 +24,11 @@ jobs:
       - name: Set GITHUB_ACTIONS Environment Variable
         run: echo 'GITHUB_ACTIONS=true' >> $GITHUB_ENV
        
-      - name: checking for port
-        run: pg_isready -h localhost -p 5432
+      - name: craeting database and user
+        run: PGPASSWORD=${{ secrets.POSTGRES_PASSWORD }} psql -U ${{ secrets.POSTGRES_USER }} -h localhost -p 5432 -d new_db -c "CREATE DATABASE mydatabase;" 
+              # Echo the list of databases on the server
+      - name: list the databases  
+        run:  PGPASSWORD=${{ secrets.POSTGRES_PASSWORD }} psql -U ${{ secrets.POSTGRES_USER }} -h localhost -p 5432 -d postgres -c "\l"
 
       - name: Checkout Repository
         uses: actions/checkout@v2
