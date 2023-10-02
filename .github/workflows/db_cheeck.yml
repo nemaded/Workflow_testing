@@ -25,8 +25,8 @@ jobs:
         run: echo 'GITHUB_ACTIONS=true' >> $GITHUB_ENV
        
       - name: craeting database and user
-        run:  psql -U ${{ secrets.POSTGRES_USER }} -d mydatabase -h localhost -p ${{ secrets.POSTGRES_PASSWORD }} 5432 -c "CREATE USER myuser WITH PASSWORD 'mypassword';"
-              
+        run: PGPASSWORD=${{ secrets.POSTGRES_PASSWORD }} psql -U ${{ secrets.POSTGRES_USER }} -h localhost -p 5432 -d postgres -c "CREATE DATABASE mydatabase;"
+
 
       - name: Checkout Repository
         uses: actions/checkout@v2
