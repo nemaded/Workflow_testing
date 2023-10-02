@@ -9,7 +9,7 @@ import os
 
 
 # Check if we are running in GitHub Actions workflow environment
-is_github_actions = os.getenv("GITHUB_ACTIONS") == "true"
+is_github_actions = os.getenv("CI") == "true"
 
 # Use different DATABASE_URL based on the environment
 if is_github_actions:
