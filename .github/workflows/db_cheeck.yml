@@ -30,6 +30,10 @@ jobs:
       - name: list the databases  
         run:  PGPASSWORD=${{ secrets.POSTGRES_PASSWORD }} psql -U ${{ secrets.POSTGRES_USER }} -h localhost -p 5432 -d postgres -c "\l"
 
+      - name: database url connection
+        run: DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@localhost/{POSTGRES_DB}"
+
+
       - name: Checkout Repository
         uses: actions/checkout@v2
 
