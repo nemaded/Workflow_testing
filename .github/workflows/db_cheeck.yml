@@ -31,3 +31,15 @@ jobs:
 
       - name: Install Dependencies
         run: pip install -r requirements.txt
+        
+      - name: Start FastAPI with uvicorn
+        run: uvicorn main:app --host 0.0.0.0 --port 8000 &
+
+      - name: Run Integration Test
+        run: |
+          pytest tests/
+          exit_code=$?
+          if [ $exit_code -eq 0 ]; then
+            echo "Integration test passed. Database is connected."
+
+      
