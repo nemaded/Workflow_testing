@@ -1,12 +1,9 @@
 name: CI
 
 on:
-  pull_request:
+  push:
     branches:
-      - feature # Replace with the name of your feature branch
-    types:
-      - opened
-      - synchronize
+      - main
 
 jobs:
   build:
