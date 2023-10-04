@@ -1,8 +1,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from .config import Settings
-
+# from .config import Settings
+from dotenv import load_dotenv
 
 
 import os
@@ -20,8 +20,13 @@ if is_github_actions:
     DATABASE_URL = f"postgresql://postgres:{POSTGRES_PASSWORD}@{POSTGRES_HOST}/cloud_bd"
 
 else:
-    settings= Settings()
-    DATABASE_URL = f"postgresql://{settings.database_username}:{settings.database_password}@{settings.database_hostname}/{settings.database_name}"
+    # Load environment variables from the ".env" file
+        load_dotenv(".env")
+        POSTGRES_PASSWORD = os.getenv("PGPASSWORD")
+        POSTGRES_HOST = os.getenv("PGHOST")
+        POSTGRES_DATABASE=os.getenv("DATABASE_NAME")
+        DATABASE_URL = f"postgresql://postgres:{POSTGRES_PASSWORD}@{POSTGRES_HOST}/{POSTGRES_DATABASE}"
+  
 
 engine = create_engine(
     DATABASE_URL

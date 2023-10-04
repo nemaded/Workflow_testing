@@ -24,13 +24,6 @@ def middleware():
 
 @router.get("/healthz",status_code=status.HTTP_200_OK)
 def root():
-    try:
-         DATABASE_URL = "postgresql://{{ secrets.POSTGRES_USER }}:{{ secrets.POSTGRES_PASSWORD }}@localhost/mydatabase"
-         engine = create_engine(DATABASE_URL)
-         SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-         return True
-    except:
-         
         if middleware():
              headers = {"Cache-Control": "no-cache"}  
              return Response(headers=headers)
