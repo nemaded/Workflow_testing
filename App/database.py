@@ -11,18 +11,15 @@ import os
 # Check if we are running in GitHub Actions workflow environment
 is_github_actions = os.getenv("CI") == "true"
 
-# Use different DATABASE_URL based on the environment
-# if is_github_actions:
-    # GitHub Actions environment
-POSTGRES_USER = os.getenv("POSTGRES_USER")
-POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
-POSTGRES_DB = os.getenv("POSTGRES_DB")
 
-DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@localhost/{POSTGRES_DB}"
-# else:
-#     # Local development environment
-#     DATABASE_URL = f"postgresql://{settings.database_username}:{settings.database_password}@{settings.database_hostname}/{settings.database_name}"
-# # SQLALCHEMY_DATABASE_URL = "postgresql://user:password@postgresserver/db"
+POSTGRES_USER = os.environ("PGUSER")
+POSTGRES_PASSWORD = os.environ("PGPASSWORD")
+POSTGRES_DB = os.environ("PGDATABASE")
+POSTGRES_HOST =os.environ("PGHOST")
+
+
+DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}/{POSTGRES_DB}"
+
 
 engine = create_engine(
     DATABASE_URL
