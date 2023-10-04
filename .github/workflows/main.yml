@@ -33,7 +33,6 @@ jobs:
 
     - name: Create PostgreSQL user and database
       run: |
-        sudo -u postgres psql -c "CREATE USER $PGUSER WITH PASSWORD '$PGPASSWORD';"
         sudo -u postgres psql -c "CREATE DATABASE $PGDATABASE OWNER postgres;"
     - name: Install Python
       uses: actions/setup-python@v2
