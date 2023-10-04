@@ -41,6 +41,10 @@ jobs:
     - name: Create PostgreSQL database
       run: |
         psql -h localhost -U postgres -d postgres -c "CREATE DATABASE ${{ secrets.PGDATABASE }};"
+    - name: List PostgreSQL databases
+      run: |
+        psql -h localhost -U postgres -l
+
 
    
     - name: Install Python
