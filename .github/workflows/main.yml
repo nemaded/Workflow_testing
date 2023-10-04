@@ -40,7 +40,7 @@ jobs:
 
     - name: Create PostgreSQL database
       run: |
-        sudo -u postgres createdb $PGDATABASE
+        psql -h localhost -U postgres -d postgres -c "CREATE DATABASE ${{ secrets.PGDATABASE }};"
 
     -  name: Check PostgreSQL logs
        run: sudo cat /var/log/postgresql/postgresql-$(ls /var/log/postgresql/ | grep -oP "(\d{1,}\.\d{1,})").log
