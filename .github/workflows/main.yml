@@ -30,12 +30,19 @@ jobs:
         until sudo -u postgres psql -c '\l'; do
           sleep 1
         done
+    - name: Check PostgreSQL status
+      run: sudo service postgresql status
 
+      
     - name: Create PostgreSQL user and database
       run: |
         echo "ALTER USER postgres WITH ENCRYPTED PASSWORD '${{ secrets.PGPASSWORD }}';" | sudo -u postgres psql
 
         sudo -u postgres psql -c "CREATE DATABASE $PGDATABASE OWNER postgres;"
+
+    -  name: Check PostgreSQL logs
+       run: sudo cat /var/log/postgresql/postgresql-$(ls /var/log/postgresql/ | grep -oP "(\d{1,}\.\d{1,})").log
+       
     - name: Install Python
       uses: actions/setup-python@v2
       with:
