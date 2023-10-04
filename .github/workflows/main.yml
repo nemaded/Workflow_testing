@@ -17,13 +17,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up PostgreSQL
-      uses: postgres/actions/setup-postgres@v2
-      with:
-        postgresql-version: '16'
-        database: ${{ secrets.PGDATABASE }}
-        username: postgres
-        password: ${{ secrets.PGPASSWORD }}
+    - name: Install PostgreSQL
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y postgresql postgresql-contrib
 
     - name: Start PostgreSQL service
       run: sudo service postgresql start
@@ -33,6 +30,11 @@ jobs:
         until sudo -u postgres psql -c '\l'; do
           sleep 1
         done
+
+    - name: Create PostgreSQL user and database
+      run: |
+        sudo -u postgres psql -c "CREATE USER $PGUSER WITH PASSWORD '$PGPASSWORD';"
+        sudo -u postgres psql -c "CREATE DATABASE $PGDATABASE OWNER postgres;"
     - name: Install Python
       uses: actions/setup-python@v2
       with:
