@@ -20,6 +20,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Install PostgreSQL
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y postgresql postgresql-contrib
+
+    - name: Start PostgreSQL service
+      run: sudo service postgresql start
+
     - name: Wait for PostgreSQL to start
       run: |
          timeout 5 bash -c '
