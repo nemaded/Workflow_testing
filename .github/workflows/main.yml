@@ -42,9 +42,7 @@ jobs:
       run: |
         psql -h localhost -U postgres -d postgres -c "CREATE DATABASE ${{ secrets.PGDATABASE }};"
 
-    -  name: Check PostgreSQL logs
-       run: sudo cat /var/log/postgresql/postgresql-$(ls /var/log/postgresql/ | grep -oP "(\d{1,}\.\d{1,})").log
-       
+   
     - name: Install Python
       uses: actions/setup-python@v2
       with:
