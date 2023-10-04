@@ -18,7 +18,8 @@ POSTGRES_DB = os.getenv("PGDATABASE")
 POSTGRES_HOST =os.getenv("PGHOST")
 
 
-DATABASE_URL = f"postgresql://postgres:Darshan16@localhost/cloud_bd"
+DATABASE_URL = f"postgresql://postgres:Darshan16@localhost/${POSTGRES_DB}"
+print(POSTGRES_DB)
 
 
 engine = create_engine(
