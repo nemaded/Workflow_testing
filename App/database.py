@@ -13,9 +13,9 @@ is_github_actions = os.getenv("CI") == "true"
 
 
 
-POSTGRES_PASSWORD = os.environ("PGPASSWORD")
-POSTGRES_DB = os.environ("PGDATABASE")
-POSTGRES_HOST =os.environ("PGHOST")
+POSTGRES_PASSWORD = os.getenv("PGPASSWORD")
+POSTGRES_DB = os.getenv("PGDATABASE")
+POSTGRES_HOST =os.getenv("PGHOST")
 
 
 DATABASE_URL = f"postgresql://postgres:{POSTGRES_PASSWORD}@{POSTGRES_HOST}/{POSTGRES_DB}"
