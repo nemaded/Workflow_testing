@@ -1,58 +1,14 @@
-name: Test
+name: CI
 
-on:
-  push:
-    branches:
-      - main
+on: [push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:16
-        env:
-          POSTGRES_DB: new_db
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-        ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
-    steps:
-      - name: Set GITHUB_ACTIONS Environment Variable
-        run: echo 'GITHUB_ACTIONS=true' >> $GITHUB_ENV
-       
-      - name: craeting database and user
-        run: PGPASSWORD=${{ secrets.POSTGRES_PASSWORD }} psql -U ${{ secrets.POSTGRES_USER }} -h localhost -p 5432 -d new_db -c "CREATE DATABASE mydatabase;" 
-              # Echo the list of databases on the server
-      - name: list the databases  
-        run:  PGPASSWORD=${{ secrets.POSTGRES_PASSWORD }} psql -U ${{ secrets.POSTGRES_USER }} -h localhost -p 5432 -d postgres -c "\l"
-
-      - name: database url connection
-        run: DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@localhost/{POSTGRES_DB}"
-
-
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.x
-
-      - name: Install Dependencies
-        run: pip install -r requirements.txt
-        
-      - name: Start FastAPI with uvicorn
-        run: uvicorn App.main:app --host 0.0.0.0 --port 8000 &
-
-      - name: Run Integration Test
-        run: |
-          pytest tests/
-          exit_code=$?
-          if [ $exit_code -eq 0 ]; then
-            echo "Integration test passed. Database is connected."
-
-      
+    env:
+      PGHOST: ${{ secrets.PGHOST }}
+      PGPORT: ${{ secrets.PGPORT }}
+      PGUSER: ${{ secrets.PGUSER }}
+      PGPASSWORD: ${{ secrets.PGPASSWORD }}
+      PGDATABASE: ${{ secrets.PGDATABASE }}
