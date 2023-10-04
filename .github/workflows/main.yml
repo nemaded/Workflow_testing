@@ -38,7 +38,9 @@ jobs:
       run: |
         echo "ALTER USER postgres WITH ENCRYPTED PASSWORD '${{ secrets.PGPASSWORD }}';" | sudo -u postgres psql
 
-        sudo -u postgres psql -c "CREATE DATABASE $PGDATABASE OWNER postgres;"
+    - name: Create PostgreSQL database
+      run: |
+        sudo -u postgres createdb $PGDATABASE
 
     -  name: Check PostgreSQL logs
        run: sudo cat /var/log/postgresql/postgresql-$(ls /var/log/postgresql/ | grep -oP "(\d{1,}\.\d{1,})").log
